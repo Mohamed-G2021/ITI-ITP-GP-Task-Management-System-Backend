@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('content');
             $table->timestamps();
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

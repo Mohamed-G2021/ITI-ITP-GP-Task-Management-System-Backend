@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->data('due_date')->nullable();
+            $table->date('due_date')->nullable();
             $table->string('status_icon')->nullable();
             $table->integer('position')->nullable();
             $table->timestamps();
