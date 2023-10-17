@@ -14,9 +14,7 @@ use App\Http\Controllers\api\TaskController;
 use App\Http\Controllers\api\UserAttachmentController;
 use App\Http\Controllers\api\UserBoardController;
 use App\Http\Controllers\api\UserCardController;
-use App\Http\Controllers\api\UserCommentController;
 use App\Http\Controllers\api\UserMemberController;
-use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
 
 /*
@@ -43,8 +41,6 @@ Route::apiResource('tasks', TaskController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('attachments', AttachmentController::class);
-Route::apiResource('user-attachments', UserAttachmentController::class);
-Route::apiResource('user-comments', UserCommentController::class);
 Route::apiResource('user-workspaces', UserWorkspaceController::class);
 Route::apiResource('user-boards', UserBoardController::class);
 Route::apiResource('user-cards', UserCardController::class);
