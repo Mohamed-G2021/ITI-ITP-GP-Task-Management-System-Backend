@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+
+
+use App\Models\Usermember;
+use App\Models\UserWorkspace;
+use App\Models\UserBoard;
+use App\Models\UserCard;
+use App\Models\UserTask;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +28,23 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('is-owner', function (Usermember $user) {
+            return $user->role === 'owner';
+        });
+        Gate::define('is-admin', function (Usermember $user) {
+            return $user->role === 'admin';
+        });
+        Gate::define('is-workspace-member', function (UserWorkspace $user) {
+            return $user->role === 'workspace-member';
+        });
+        Gate::define('is-board-member', function (UserBoard $user) {
+            return $user->role === 'board-member';
+        });
+        Gate::define('is-card-member', function (UserCard $user) {
+            return $user->role === 'card-member';
+        });
+        Gate::define('is-task-member', function (UserTask $user) {
+            return $user->role === 'task-member';
+        });
     }
 }
