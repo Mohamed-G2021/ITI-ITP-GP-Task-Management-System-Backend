@@ -3,6 +3,23 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\api\AttachmentController;
+use App\Http\Controllers\api\BoardController;
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\CommentController;
+use App\Http\Controllers\api\GroupController;
+use App\Http\Controllers\api\PhaseController;
+use App\Http\Controllers\api\CardController;
+use App\Http\Controllers\api\TaskController;
+use App\Http\Controllers\api\UserAttachmentController;
+use App\Http\Controllers\api\UserBoardController;
+use App\Http\Controllers\api\UserCardController;
+use App\Http\Controllers\api\UserCommentController;
+use App\Http\Controllers\api\UserMemberController;
+use App\Http\Controllers\api\UserTaskController;
+use App\Http\Controllers\api\UserWorkspaceController;
+use App\Http\Controllers\api\WorkspaceController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +34,20 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('workspaces', WorkspaceController::class);
+Route::apiResource('boards', BoardController::class);
+Route::apiResource('phases', PhaseController::class);
+Route::apiResource('cards', CardController::class);
+Route::apiResource('groups', GroupController::class);
+Route::apiResource('tasks', TaskController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('comments', CommentController::class);
+Route::apiResource('attachments', AttachmentController::class);
+Route::apiResource('user-attachments', UserAttachmentController::class);
+Route::apiResource('user-comments', UserCommentController::class);
+Route::apiResource('user-workspaces', UserWorkspaceController::class);
+Route::apiResource('user-boards', UserBoardController::class);
+Route::apiResource('user-cards', UserCardController::class);
+Route::apiResource('user-tasks', UserTaskController::class);
+Route::apiResource('user-members', UserMemberController::class);
