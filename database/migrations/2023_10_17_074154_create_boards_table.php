@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->enum('view', ['kanban', 'calendar', 'timeline'])->default('kanban');
+            $table->foreignId('workspace_id')
+                ->constrained('workspaces')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
