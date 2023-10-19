@@ -56,7 +56,6 @@ class BoardController extends Controller
         ]);
 
         if($validator->fails()){
-            dd($validator->errors()->all());
             return response($validator->errors()->all(), 422);
         }
 
@@ -71,7 +70,7 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
-        //$board->delete();
+        $board->delete();
         return response('deleted',202);
     }
 }
