@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('card_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->date('due_date')->nullable();
-            $table->string('status_icon')->nullable();
-            $table->integer('position')->nullable();
-            $table->foreignId('phase_id')
-                ->constrained('phases')
+            $table->foreignId('card_id')
+                ->constrained('cards')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('category_id')
+                ->constrained('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('card_categories');
     }
 };

@@ -18,7 +18,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('cards_id')
-                ->constrained('users')
+                ->constrained('cards')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
