@@ -19,7 +19,7 @@ class BoardController extends Controller
         if($boards->isEmpty()){
             return response('Empty',200);
         }
-        return $boards;
+        return BoardResource::collection($boards);
     }
 
     /**
@@ -49,7 +49,7 @@ class BoardController extends Controller
         if(!$board){
             return response('Data not found',404);
         }
-        return $board;
+        return new BoardResource($board);
     }
 
     /**
@@ -73,7 +73,7 @@ class BoardController extends Controller
 
        $board->update($request->all());
 
-        return $board;
+       return new BoardResource($board);
     }
 
     /**

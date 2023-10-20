@@ -14,6 +14,14 @@ class BoardResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "id" => $this->id,
+            "title" => $this->title,
+            "description" => $this->description,
+            "view" => $this->view,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+            "workspace" => $this->workspace
+        ];
     }
 }
