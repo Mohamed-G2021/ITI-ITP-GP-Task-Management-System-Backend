@@ -21,7 +21,7 @@ class BoardResource extends JsonResource
             "view" => $this->view,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "workspace" => $this->workspace
+            "workspace" => $this->workspace? $this->workspace:null
         ];
     }
 }
