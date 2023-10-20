@@ -16,7 +16,10 @@ class BoardController extends Controller
     public function index()
     {
         $boards = Board::all();
-        return BoardResource::collection($boards);
+        if($boards->isEmpty()){
+            return response('Empty',200);
+        }
+        return $boards;
     }
 
     /**
@@ -34,22 +37,30 @@ class BoardController extends Controller
         }
 
         $board = Board::create($request->all());
-        return (new BoardResource($board))->response()->setStatusCode(201);
+        return response($board)->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Board $board)
+    public function show(string $id)
     {
-        return new BoardResource($board);
+        $board = Board::find($id);
+        if(!$board){
+            return response('Data not found',404);
+        }
+        return $board;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Board $board)
+    public function update(Request $request, string $id)
     {
+        $board = Board::find($id);
+        if(!$board){
+            return response('Data not found',404);
+        }
         $validator = Validator::make($request->all(), [
             "title"=> "required|min:3",
             "workspace_id"=> 'required'
@@ -62,15 +73,20 @@ class BoardController extends Controller
 
        $board->update($request->all());
 
-        return  new BoardResource($board);
+        return $board;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Board $board)
+    public function destroy(string $id)
     {
-        $board->delete();
+        $board = Board::find($id);
+       if(!$board){
+            return response('Data not found',404);
+        }else{
+            $board->delete();
+        }
         return response('deleted',202);
     }
 }
