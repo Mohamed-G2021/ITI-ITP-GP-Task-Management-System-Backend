@@ -11,9 +11,11 @@ class Phase extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title','position','board_id'];
+
     public function cards()
     {
-        return $this->hasMany(Card::class, 'user_id', 'id');
+        return $this->hasMany(Card::class, 'board_id', 'id');
     }
 
     public function board()
