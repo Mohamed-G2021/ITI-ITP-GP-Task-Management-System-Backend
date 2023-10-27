@@ -15,6 +15,7 @@ use App\Http\Controllers\api\UserAttachmentController;
 use App\Http\Controllers\api\UserBoardController;
 use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
+use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
 
 /*
