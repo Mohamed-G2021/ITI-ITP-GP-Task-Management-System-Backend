@@ -12,6 +12,8 @@ class Workspace extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'background_color', 'background_image'];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_workspaces');
@@ -19,6 +21,6 @@ class Workspace extends Model
 
     public function boards()
     {
-        return $this->hasMany(Board::class, 'user_id', 'id');
+        return $this->hasMany(Board::class, 'workspace_id', 'id');
     }
 }
