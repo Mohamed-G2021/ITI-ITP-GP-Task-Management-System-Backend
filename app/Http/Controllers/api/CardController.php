@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CardResource;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CardController extends Controller
 {
@@ -13,7 +15,8 @@ class CardController extends Controller
      */
     public function index()
     {
-        //
+        $cards = Card::all();
+        return CardResource::collection($cards);
     }
 
 
@@ -22,7 +25,20 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required',
+                'phase_id' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+        $card = Card::create($request->all());
+        return (new CardResource($card))->response()->setStatusCode(201);
     }
 
     /**
@@ -30,7 +46,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        //
+        return new CardResource($card);
     }
 
     /**
@@ -38,7 +54,8 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
-        //
+        $card->update($request->all());
+        return (new CardResource($card))->response()->setStatusCode(200);
     }
 
     /**
@@ -46,6 +63,7 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
-        //
+        $card->delete();
+        return response('deleted', 204);
     }
 }
