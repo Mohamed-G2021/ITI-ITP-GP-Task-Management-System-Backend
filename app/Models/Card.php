@@ -26,17 +26,17 @@ class Card extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'user_id', 'id');
+        return $this->hasMany(Comment::class, 'card_id', 'id');
     }
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'user_id', 'id');
+        return $this->hasMany(Attachment::class, 'card_id', 'id');
     }
 
     public function groups()
     {
-        return $this->hasMany(Group::class, 'user_id', 'id');
+        return $this->hasMany(Group::class, 'card_id', 'id');
     }
 
     public function phase()

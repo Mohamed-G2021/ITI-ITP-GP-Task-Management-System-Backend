@@ -15,7 +15,7 @@ class Phase extends Model
 
     public function cards()
     {
-        return $this->hasMany(Card::class, 'board_id', 'id');
+        return $this->hasMany(Card::class, 'phase_id', 'id');
     }
 
     public function board()

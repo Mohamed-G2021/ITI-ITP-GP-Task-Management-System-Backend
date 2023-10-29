@@ -13,7 +13,7 @@ class Group extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'user_id', 'id');
+        return $this->hasMany(Task::class, 'group_id', 'id');
     }
 
     public function card()

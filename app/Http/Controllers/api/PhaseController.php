@@ -17,9 +17,6 @@ class PhaseController extends Controller
     public function index()
     {
         $phases = Phase::orderBy('position','ASC')->get();
-        if($phases->isEmpty()){
-            return response('Empty',200);
-        }
         return PhaseResource::collection($phases);
     }
 
@@ -45,24 +42,16 @@ class PhaseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Phase $phase)
     {
-        $phase = Phase::find($id);
-        if(!$phase){
-            return response('Data not found',404);
-        }
         return new PhaseResource($phase);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Phase $phase)
     {
-        $phase = Phase::find($id);
-        if(!$phase){
-            return response('Data not found',404);
-        }
         $validator = Validator::make($request->all(), [
             "title"=> "required|min:3",
             "position"=> "required|numeric",
@@ -75,21 +64,15 @@ class PhaseController extends Controller
 
 
        $phase->update($request->all());
-
        return new PhaseResource($phase);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Phase $phase)
     {
-        $phase = Phase::find($id);
-       if(!$phase){
-            return response('Data not found',404);
-        }else{
-            $phase->delete();
-        }
+        $phase->delete();
         return response('deleted',202);
     }
 }

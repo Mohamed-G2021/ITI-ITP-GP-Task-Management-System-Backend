@@ -21,7 +21,7 @@ class Board extends Model
 
     public function phases()
     {
-        return $this->hasMany(Phase::class, 'user_id', 'id');
+        return $this->hasMany(Phase::class, 'Board_id', 'id');
     }
 
     public function workspace()

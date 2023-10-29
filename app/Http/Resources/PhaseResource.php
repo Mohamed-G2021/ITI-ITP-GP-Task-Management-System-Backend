@@ -20,7 +20,8 @@ class PhaseResource extends JsonResource
             'position' => $this->position,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'board' => $this->board ? $this->board : null
+            'board' => $this->board ? new BoardResource($this->board) : null,
+            'cards' => $this->cards ? $this->cards : null,
         ];
     }
 }

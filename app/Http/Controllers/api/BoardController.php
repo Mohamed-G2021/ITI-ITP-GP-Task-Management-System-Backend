@@ -15,10 +15,7 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::all();
-        if($boards->isEmpty()){
-            return response('Empty',200);
-        }
+        $boards = Board::orderBy('updated_at','ASC')->get();
         return BoardResource::collection($boards);
     }
 
@@ -43,25 +40,21 @@ class BoardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Board $board)
     {
-        $board = Board::find($id);
-        if(!$board){
-            return response('Data not found',404);
-        }
         return new BoardResource($board);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Board $board)
     {
-        $board = Board::find($id);
-        if(!$board){
-            return response('Data not found',404);
-        }
         $validator = Validator::make($request->all(), [
+            "title"=> "required|min:3",
+            "workspace_id"=> 'required'
+        ]);
+        $request->validate([
             "title"=> "required|min:3",
             "workspace_id"=> 'required'
         ]);
@@ -79,14 +72,9 @@ class BoardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Board $board)
     {
-        $board = Board::find($id);
-       if(!$board){
-            return response('Data not found',404);
-        }else{
-            $board->delete();
-        }
+        $board->delete();
         return response('deleted',202);
     }
 }
