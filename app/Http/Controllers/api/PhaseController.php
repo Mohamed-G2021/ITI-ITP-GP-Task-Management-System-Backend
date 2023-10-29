@@ -16,7 +16,7 @@ class PhaseController extends Controller
      */
     public function index()
     {
-        $phases = Phase::all();
+        $phases = Phase::orderBy('position','ASC')->get();
         if($phases->isEmpty()){
             return response('Empty',200);
         }
