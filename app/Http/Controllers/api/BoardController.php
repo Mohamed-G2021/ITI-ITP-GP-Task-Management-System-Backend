@@ -37,7 +37,7 @@ class BoardController extends Controller
         }
 
         $board = Board::create($request->all());
-        return response($board)->setStatusCode(201);
+        return (new BoardResource($board))->response()->setStatusCode(201);
     }
 
     /**

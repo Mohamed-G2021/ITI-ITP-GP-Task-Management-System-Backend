@@ -39,7 +39,7 @@ class PhaseController extends Controller
         }
 
         $phase = Phase::create($request->all());
-        return response($phase)->setStatusCode(201);
+        return (new PhaseResource($phase))->response()->setStatusCode(201);
     }
 
     /**
