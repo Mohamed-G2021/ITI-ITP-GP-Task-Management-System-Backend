@@ -14,6 +14,8 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'due_date', 'status_icon', 'position', 'phase_id'];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_cards');
