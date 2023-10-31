@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -14,6 +16,8 @@ class CommentController extends Controller
     public function index()
     {
         //
+        $comments = Comment::all();
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -22,6 +26,16 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "content" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+        $comment = Comment::create($request->all());
+        return (new CommentResource($comment))->response()->setStatusCode(201);
     }
 
     /**
@@ -30,6 +44,7 @@ class CommentController extends Controller
     public function show(Comment $comment)
     {
         //
+        return new CommentResource($comment);
     }
 
     /**
@@ -38,6 +53,18 @@ class CommentController extends Controller
     public function update(Request $request, Comment $comment)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "content" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+
+        $comment->update($request->all());
+
+        return new CommentResource($comment);
     }
 
     /**
@@ -46,5 +73,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         //
+        $comment->delete();
+        return response("Deleted", 204);
     }
 }
