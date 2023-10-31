@@ -11,6 +11,8 @@ class Group extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'card_id'];
+
     public function tasks()
     {
         return $this->hasMany(Task::class, 'group_id', 'id');

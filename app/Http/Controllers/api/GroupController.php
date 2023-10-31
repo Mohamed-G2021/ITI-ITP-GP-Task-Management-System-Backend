@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GroupResource;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GroupController extends Controller
 {
@@ -14,6 +16,8 @@ class GroupController extends Controller
     public function index()
     {
         //
+        $group = Group::all();
+        return GroupResource::collection($group);
     }
 
     /**
@@ -22,6 +26,16 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "name" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+        $group = Group::create($request->all());
+        return (new GroupResource($group))->response()->setStatusCode(201);
     }
 
     /**
@@ -30,6 +44,7 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         //
+        return new GroupResource($group);
     }
 
     /**
@@ -38,6 +53,18 @@ class GroupController extends Controller
     public function update(Request $request, Group $group)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "name" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+
+        $group->update($request->all());
+
+        return new GroupResource($group);
     }
 
     /**
@@ -46,5 +73,7 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+        $group->delete();
+        return response("Deleted", 204);
     }
 }
