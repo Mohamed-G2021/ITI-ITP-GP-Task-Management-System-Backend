@@ -21,6 +21,7 @@ class BoardResource extends JsonResource
             "view" => $this->view,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+            "phases"=> $this->phases ? $this->phases->sortBy('position')->values():null,
             "workspace" => $this->workspace? $this->workspace:null
         ];
     }

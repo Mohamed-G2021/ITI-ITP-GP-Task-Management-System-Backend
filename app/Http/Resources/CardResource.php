@@ -21,7 +21,8 @@ class CardResource extends JsonResource
             'due_date' => $this->due_date,
             'status_icon' => $this->status_icon,
             'position' => $this->position,
-            'phase' => new PhaseResource($this->phase),
+            'phase' => $this->phase?$this->phase:null,
+            'groups' =>  $this->groups?$this->groups:null
         ];
     }
 }
