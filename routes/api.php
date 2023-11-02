@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\api\AttachmentController;
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\BoardController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\CommentController;
@@ -48,7 +49,8 @@ Route::apiResource('user-workspaces', UserWorkspaceController::class);
 Route::apiResource('user-boards', UserBoardController::class);
 Route::apiResource('user-cards', UserCardController::class);
 Route::apiResource('user-members', UserMemberController::class);
-Route::post('/auth/access-tokens', [AccessTokensController::class, 'store'])
-    ->middleware('guest:sanctum');
-Route::delete('/auth/access-tokens/{token?}', [AccessTokensController::class, 'destroy'])
+
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::delete('/auth/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
