@@ -5,8 +5,10 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AccessTokensController extends Controller
 {
@@ -41,5 +43,24 @@ class AccessTokensController extends Controller
             ],
             401
         );
+    }
+
+    public function destroy($token = null)
+    {
+        $user = Auth::guard('sanctum')->user();
+
+        if (null === $token) {
+            $user->currentAccessToken()->delete();
+            return response(null, 204);
+        }
+
+        $personal_access_token = PersonalAccessToken::findToken($token);
+        if (
+            $user->id == $personal_access_token->tokenable_id
+            && get_class($user) == $personal_access_token->tokenable_type
+        ) {
+            $personal_access_token->delete();
+        }
+        return response(null, 204);
     }
 }

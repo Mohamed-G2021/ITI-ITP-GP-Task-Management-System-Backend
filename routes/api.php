@@ -18,6 +18,7 @@ use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
 use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,7 @@ use App\Http\Controllers\api\WorkspaceController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return Auth::guard('sanctum')->user();
 });
 
 Route::apiResource('workspaces', WorkspaceController::class);
@@ -49,3 +50,5 @@ Route::apiResource('user-cards', UserCardController::class);
 Route::apiResource('user-members', UserMemberController::class);
 Route::post('/auth/access-tokens', [AccessTokensController::class, 'store'])
     ->middleware('guest:sanctum');
+Route::delete('/auth/access-tokens/{token?}', [AccessTokensController::class, 'destroy'])
+    ->middleware('auth:sanctum');
