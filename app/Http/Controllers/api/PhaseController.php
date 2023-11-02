@@ -10,13 +10,16 @@ use App\Http\Resources\PhaseResource;
 
 class PhaseController extends Controller
 {
-
+    function __construct()
+    {
+        return $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $phases = Phase::orderBy('position','ASC')->get();
+        $phases = Phase::orderBy('position', 'ASC')->get();
         return PhaseResource::collection($phases);
     }
 
@@ -26,12 +29,12 @@ class PhaseController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "title"=> "required|min:3",
-            "position"=> "required|numeric",
-            "board_id"=> "required",
+            "title" => "required|min:3",
+            "position" => "required|numeric",
+            "board_id" => "required",
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
 
@@ -53,18 +56,18 @@ class PhaseController extends Controller
     public function update(Request $request, Phase $phase)
     {
         $validator = Validator::make($request->all(), [
-            "title"=> "required|min:3",
-            "position"=> "required|numeric",
-            "board_id"=> "required",
+            "title" => "required|min:3",
+            "position" => "required|numeric",
+            "board_id" => "required",
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
 
 
-       $phase->update($request->all());
-       return new PhaseResource($phase);
+        $phase->update($request->all());
+        return new PhaseResource($phase);
     }
 
     /**
@@ -73,6 +76,6 @@ class PhaseController extends Controller
     public function destroy(Phase $phase)
     {
         $phase->delete();
-        return response('deleted',202);
+        return response('deleted', 202);
     }
 }

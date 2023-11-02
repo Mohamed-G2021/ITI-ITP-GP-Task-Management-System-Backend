@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
+    function __construct()
+    {
+        return $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      */
