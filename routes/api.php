@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\AccessTokensController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,3 +47,5 @@ Route::apiResource('user-workspaces', UserWorkspaceController::class);
 Route::apiResource('user-boards', UserBoardController::class);
 Route::apiResource('user-cards', UserCardController::class);
 Route::apiResource('user-members', UserMemberController::class);
+Route::post('/auth/access-tokens', [AccessTokensController::class, 'store'])
+    ->middleware('guest:sanctum');
