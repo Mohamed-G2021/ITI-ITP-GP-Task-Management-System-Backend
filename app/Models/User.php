@@ -77,16 +77,16 @@ class User extends Authenticatable
 
     public function boards(): BelongsToMany
     {
-        return $this->belongsToMany(Boards::class,  'user_boards', 'user_id', 'board_id')->withTimestamps();;
+        return $this->belongsToMany(Boards::class,  'user_board')->withTimestamps();;
     }
 
     public function cards(): BelongsToMany
     {
-        return $this->belongsToMany(Card::class,  'user_cards', 'user_id', 'card_id')->withTimestamps();;
+        return $this->belongsToMany(Card::class,  'user_card')->withTimestamps();;
     }
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_members', 'user_id', 'member_id')->withTimestamps();;
+        return $this->belongsToMany(User::class, 'user_member')->withTimestamps();;
     }
 }

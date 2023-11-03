@@ -12,11 +12,11 @@ use App\Models\Phase;
 class Board extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','description','view','workspace_id'];
+    protected $fillable = ['title', 'description', 'view', 'workspace_id'];
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_boards');
+        return $this->belongsToMany(User::class, 'user_board');
     }
 
     public function phases()
