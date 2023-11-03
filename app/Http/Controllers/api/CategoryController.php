@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -18,6 +20,8 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        $category = Category::all();
+        return CategoryResource::collection($category);
     }
 
     /**
@@ -26,6 +30,16 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "name" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+        $category = Category::create($request->all());
+        return (new CategoryResource($category))->response()->setStatusCode(201);
     }
 
     /**
@@ -34,6 +48,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
+        return new CategoryResource($category);
     }
 
     /**
@@ -42,6 +57,18 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "name" => "sometimes|required"
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
+
+        $category->update($request->all());
+
+        return new CategoryResource($category);
     }
 
     /**
@@ -50,5 +77,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        return response("Deleted", 204);
     }
 }
