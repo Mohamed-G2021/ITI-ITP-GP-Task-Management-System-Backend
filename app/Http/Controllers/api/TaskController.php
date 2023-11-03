@@ -20,8 +20,9 @@ class TaskController extends Controller
     public function index()
     {
         //
-        $task = Task::all();
-        return TaskResource::collection($task);
+        $user = Auth::user();
+        $tasks = $user->tasks;
+        return TaskResource::collection($tasks);
     }
 
     /**
@@ -40,6 +41,8 @@ class TaskController extends Controller
         }
 
         $task = Task::create($request->all());
+        $user = Auth::user();
+        $user->tasks()->attach($task->id);
         return (new TaskResource($task))->response()->setStatusCode(201);
     }
 

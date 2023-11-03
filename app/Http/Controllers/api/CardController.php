@@ -19,7 +19,8 @@ class CardController extends Controller
      */
     public function index()
     {
-        $cards = Card::all();
+        $user = Auth::user();
+        $cards = $user->cards->sortBy('position')->values();
         return CardResource::collection($cards);
     }
 
@@ -42,6 +43,10 @@ class CardController extends Controller
         }
 
         $card = Card::create($request->all());
+        $user = Auth::user();
+        $user->cards()->attach($card->id);
+        $card->categories()->attach($card->id);
+        
         return (new CardResource($card))->response()->setStatusCode(201);
     }
 
@@ -58,6 +63,17 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required',
+                'phase_id' => 'required',
+            ]
+        );
+        if ($validator->fails()) {
+            return response($validator->errors()->all(), 422);
+        }
+
         $card->update($request->all());
         return (new CardResource($card))->response()->setStatusCode(200);
     }
