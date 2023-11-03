@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     function __construct()
     {
-        return $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum');
     }
     /**
      * Display a listing of the resource.
