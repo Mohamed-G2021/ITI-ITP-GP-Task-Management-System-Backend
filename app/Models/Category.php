@@ -13,6 +13,6 @@ class Category extends Model
 
     public function cards(): BelongsToMany
     {
-        return $this->belongsToMany(Card::class, 'card_categories');
+        return $this->belongsToMany(Card::class, 'card_category');
     }
 }

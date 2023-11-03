@@ -18,12 +18,12 @@ class Card extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_cards');
+        return $this->belongsToMany(User::class, 'user_card');
     }
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'card_categories', 'card_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'card_category');
     }
 
     public function comments()
