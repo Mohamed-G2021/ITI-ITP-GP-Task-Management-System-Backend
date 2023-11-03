@@ -19,8 +19,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
-        $comments = Comment::all();
+        $user = Auth::user();
+        $comments = $user->comments->sortBy('created_at')->values;
         return CommentResource::collection($comments);
     }
 
@@ -39,6 +39,8 @@ class CommentController extends Controller
         }
 
         $comment = Comment::create($request->all());
+        $user = Auth::user();
+        $user->comments()->attach($comment->id);
         return (new CommentResource($comment))->response()->setStatusCode(201);
     }
 
