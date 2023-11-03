@@ -21,7 +21,7 @@ class WorkspaceController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $workspaces = $user->workspaces;
+        $workspaces = $user->workspaces->sortByDesc('updated_at')->values();
         return WorkspaceResource::collection($workspaces);
     }
 
