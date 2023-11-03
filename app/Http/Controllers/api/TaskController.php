@@ -35,7 +35,8 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             "name" => "required",
             "is_done" => "required|boolean",
-            "group_id" => "required|numeric"
+            "group_id" => "required|numeric",
+            "user_id" => "required|numeric"
         ]);
 
         if ($validator->fails()) {
@@ -43,8 +44,6 @@ class TaskController extends Controller
         }
 
         $task = Task::create($request->all());
-        $user = Auth::user();
-        $user->tasks()->attach($task->id);
         return (new TaskResource($task))->response()->setStatusCode(201);
     }
 
