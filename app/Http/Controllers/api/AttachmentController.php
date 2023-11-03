@@ -7,7 +7,6 @@ use App\Http\Resources\AttachmentResource;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 
 class AttachmentController extends Controller
 {
@@ -20,8 +19,7 @@ class AttachmentController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $attachments = $user->attachments->sortBy('updated_at')->values();
+        $attachments = Attachment::all();
         return AttachmentResource::collection($attachments);
     }
 
@@ -65,7 +63,7 @@ class AttachmentController extends Controller
     {
         //
         $attachment->update([
-            'name' => $request->input('name'),
+            'name' => $request->name,
         ]);
 
         return new AttachmentResource($attachment);
