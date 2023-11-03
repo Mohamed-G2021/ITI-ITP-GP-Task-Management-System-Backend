@@ -11,6 +11,8 @@ class Attachment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['type', 'name', 'path', 'size', 'user_id', 'card_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

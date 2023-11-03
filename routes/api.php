@@ -50,7 +50,10 @@ Route::apiResource('user-boards', UserBoardController::class);
 Route::apiResource('user-cards', UserCardController::class);
 Route::apiResource('user-members', UserMemberController::class);
 
+Route::get('/attachments/{id}/download', [AttachmentController::class, 'serveAttachment']);
+
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::delete('/auth/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
+ 
