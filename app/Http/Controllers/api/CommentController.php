@@ -32,7 +32,9 @@ class CommentController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "content" => "required"
+            "content" => "required",
+            "user_id" => "required|numeric",
+            "card_id" => "required|numeric"
         ]);
 
         if ($validator->fails()) {
@@ -40,8 +42,6 @@ class CommentController extends Controller
         }
 
         $comment = Comment::create($request->all());
-        $user = Auth::user();
-        $user->comments()->attach($comment->id);
         return (new CommentResource($comment))->response()->setStatusCode(201);
     }
 

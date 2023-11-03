@@ -31,7 +31,8 @@ class GroupController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "name" => "required"
+            "name" => "required",
+            "card_id" => "required|numeric"
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +59,7 @@ class GroupController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "name" => "required"
+            "name" => "required",
         ]);
 
         if ($validator->fails()) {

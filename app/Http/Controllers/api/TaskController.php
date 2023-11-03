@@ -34,7 +34,8 @@ class TaskController extends Controller
         //
         $validator = Validator::make($request->all(), [
             "name" => "required",
-            "is_done" => "required|boolean"
+            "is_done" => "required|boolean",
+            "group_id" => "required|numeric"
         ]);
 
         if ($validator->fails()) {
