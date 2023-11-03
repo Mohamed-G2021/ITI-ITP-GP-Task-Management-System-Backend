@@ -7,6 +7,7 @@ use App\Models\Board;
 use Illuminate\Http\Request;
 use App\Http\Resources\BoardResource;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
 {
@@ -19,7 +20,8 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::orderBy('updated_at', 'ASC')->get();
+        $user = Auth::user();
+        $boards = $user->boards->sortByDesc('updated_at')->values();
         return BoardResource::collection($boards);
     }
 
@@ -38,6 +40,10 @@ class BoardController extends Controller
         }
 
         $board = Board::create($request->all());
+
+        $user = Auth::user();
+        $user->boards()->attach($board->id);
+
         return (new BoardResource($board))->response()->setStatusCode(201);
     }
 
