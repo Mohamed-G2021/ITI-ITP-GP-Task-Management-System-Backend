@@ -62,13 +62,12 @@ class BoardController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "title" => "required|min:3",
-            "workspace_id" => 'required'
         ]);
-        $request->validate([
+/*         $request->validate([
             "title" => "required|min:3",
             "workspace_id" => 'required'
         ]);
-
+ */
         if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }

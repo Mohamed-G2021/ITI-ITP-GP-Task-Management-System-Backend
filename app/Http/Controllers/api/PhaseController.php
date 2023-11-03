@@ -58,7 +58,6 @@ class PhaseController extends Controller
         $validator = Validator::make($request->all(), [
             "title" => "required|min:3",
             "position" => "required|numeric",
-            "board_id" => "required",
         ]);
 
         if ($validator->fails()) {
