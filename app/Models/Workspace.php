@@ -16,7 +16,7 @@ class Workspace extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_workspaces');
+        return $this->belongsToMany(User::class, 'user_workspace');
     }
 
     public function boards()

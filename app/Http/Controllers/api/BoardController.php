@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class BoardController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $boards = Board::orderBy('updated_at','ASC')->get();
+        $boards = Board::orderBy('updated_at', 'ASC')->get();
         return BoardResource::collection($boards);
     }
 
@@ -25,11 +29,11 @@ class BoardController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "title"=> "required|min:3",
-            "workspace_id"=> 'required'
+            "title" => "required|min:3",
+            "workspace_id" => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
 
@@ -51,22 +55,22 @@ class BoardController extends Controller
     public function update(Request $request, Board $board)
     {
         $validator = Validator::make($request->all(), [
-            "title"=> "required|min:3",
-            "workspace_id"=> 'required'
+            "title" => "required|min:3",
+            "workspace_id" => 'required'
         ]);
         $request->validate([
-            "title"=> "required|min:3",
-            "workspace_id"=> 'required'
+            "title" => "required|min:3",
+            "workspace_id" => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
 
 
-       $board->update($request->all());
+        $board->update($request->all());
 
-       return new BoardResource($board);
+        return new BoardResource($board);
     }
 
     /**
@@ -75,6 +79,6 @@ class BoardController extends Controller
     public function destroy(Board $board)
     {
         $board->delete();
-        return response('deleted',202);
+        return response('deleted', 202);
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\api\AccessTokensController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\api\AttachmentController;
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\BoardController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\CommentController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
 use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +33,7 @@ use App\Http\Controllers\api\WorkspaceController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return Auth::guard('sanctum')->user();
 });
 
 Route::apiResource('workspaces', WorkspaceController::class);
@@ -48,3 +51,9 @@ Route::apiResource('user-cards', UserCardController::class);
 Route::apiResource('user-members', UserMemberController::class);
 
 Route::get('/attachments/{id}/download', [AttachmentController::class, 'serveAttachment']);
+
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::delete('/auth/logout', [AuthController::class, 'logout'])
+    ->middleware('auth:sanctum');
+ 

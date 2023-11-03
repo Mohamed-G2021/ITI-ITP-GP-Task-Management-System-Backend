@@ -6,17 +6,23 @@ use App\Models\Workspace;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WorkspaceResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class WorkspaceController extends Controller
 {
+    function __construct()
+    {
+        return $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $workspace = Workspace::all();
-        return WorkspaceResource::collection($workspace);
+        $user = Auth::user();
+        $workspaces = $user->workspaces;
+        return WorkspaceResource::collection($workspaces);
     }
 
     /**
@@ -34,6 +40,10 @@ class WorkspaceController extends Controller
         }
 
         $workspace = Workspace::create($request->all());
+
+        $user = Auth::user();
+        $user->workspaces()->attach($workspace->id);
+
         return (new WorkspaceResource($workspace))->response()->setStatusCode(201);
     }
 
