@@ -20,7 +20,7 @@ class CommentController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $comments = $user->comments->sortBy('created_at')->values;
+        $comments = $user->comments->sortBy('created_at')->values();
         return CommentResource::collection($comments);
     }
 

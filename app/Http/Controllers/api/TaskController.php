@@ -21,7 +21,7 @@ class TaskController extends Controller
     {
         //
         $user = Auth::user();
-        $tasks = $user->tasks;
+        $tasks = $user->tasks->sortBy('created_at')->values();
         return TaskResource::collection($tasks);
     }
 
