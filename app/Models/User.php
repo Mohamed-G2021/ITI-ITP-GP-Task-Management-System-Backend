@@ -77,7 +77,7 @@ class User extends Authenticatable
 
     public function boards(): BelongsToMany
     {
-        return $this->belongsToMany(Boards::class,  'user_board')->withTimestamps();;
+        return $this->belongsToMany(Board::class,  'user_board')->withTimestamps();;
     }
 
     public function cards(): BelongsToMany

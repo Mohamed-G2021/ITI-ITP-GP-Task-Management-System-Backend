@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
+use App\Models\Card;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,9 +30,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validator = Validator::make($request->all(), [
-            "name" => "required"
+            "name" => "required",
+            "card_id" => "required"
         ]);
 
         if ($validator->fails()) {
@@ -39,6 +40,8 @@ class CategoryController extends Controller
         }
 
         $category = Category::create($request->all());
+        $card = Card::find($request->card_id);
+        if($card) $card->categories()->attach($category->id);
         return (new CategoryResource($category))->response()->setStatusCode(201);
     }
 
@@ -58,7 +61,7 @@ class CategoryController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "name" => "sometimes|required"
+            "name" => "sometimes|required",
         ]);
 
         if ($validator->fails()) {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,7 +47,7 @@ class CardController extends Controller
         $card = Card::create($request->all());
         $user = Auth::user();
         $user->cards()->attach($card->id);
-        $card->categories()->attach($card->id);
+       
         
         return (new CardResource($card))->response()->setStatusCode(201);
     }
@@ -75,6 +77,12 @@ class CardController extends Controller
         }
 
         $card->update($request->all());
+
+        if($request->category_id){
+            $category = Category::find($request->category_id);
+            if($category) {$category->cards()->attach($card->id);}
+            else{ response('Not found', 404);}
+        }
         return (new CardResource($card))->response()->setStatusCode(200);
     }
 
@@ -84,6 +92,6 @@ class CardController extends Controller
     public function destroy(Card $card)
     {
         $card->delete();
-        return response('deleted', 204);
+        return response('deleted', 202);
     }
 }
