@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Invitation extends Model
 {
     use HasFactory;
-    protected $fillable = ['email', 'invitation_on', 'invitation_on_id'];
+    protected $fillable = ['email', 'invitation_on', 'invitation_on_id', 'status'];
 }
