@@ -11,6 +11,7 @@ use App\Models\Card;
 use App\Models\Phase;
 use App\Models\Workspace;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class InvitationController extends Controller
@@ -72,37 +73,65 @@ class InvitationController extends Controller
                             ['workspace_id' => $invitation->invitation_on_id],
                             ['role' => 'member']
                         );
+
                         break;
+
                     case 'board':
                         $board = Board::find($invitation->invitation_on_id);
 
-                        Auth::user()->workspaces()->attach(
-                            ['workspace_id' => $board->workspace_id],
-                            ['role' => 'member']
-                        );
-                        Auth::user()->boards()->attach(
-                            ['board_id' => $invitation->invitation_on_id],
-                            ['role' => 'member']
-                        );
+                        $record_exists = DB::table('user_workspace')
+                            ->where('user_id', Auth::id())
+                            ->where('workspace_id', $board->workspace_id)
+                            ->exists();
+
+                        if (!$record_exists) {
+                            Auth::user()->workspaces()->attach(
+                                ['workspace_id' => $board->workspace_id],
+                                ['role' => 'member']
+                            );
+                            Auth::user()->boards()->attach(
+                                ['board_id' => $invitation->invitation_on_id],
+                                ['role' => 'member']
+                            );
+                        } else {
+                            Auth::user()->boards()->attach(
+                                ['board_id' => $invitation->invitation_on_id],
+                                ['role' => 'member']
+                            );
+                        }
 
                         break;
+
                     case 'card':
                         $card = Card::find($invitation->invitation_on_id);
                         $phase = Phase::find($card->phase_id);
                         $board = Board::find($phase->board_id);
 
-                        Auth::user()->workspaces()->attach(
-                            ['workspace_id' => $board->workspace_id],
-                            ['role' => 'member']
-                        );
-                        Auth::user()->boards()->attach(
-                            ['board_id' => $board->id],
-                            ['role' => 'member']
-                        );
-                        Auth::user()->cards()->attach(
-                            ['card_id' => $invitation->invitation_on_id],
-                            ['role' => 'member']
-                        );
+                        $record_exists = DB::table('user_workspace')
+                            ->where('user_id', Auth::id())
+                            ->where('workspace_id', $board->workspace_id)
+                            ->exists();
+
+                        if (!$record_exists) {
+                            Auth::user()->workspaces()->attach(
+                                ['workspace_id' => $board->workspace_id],
+                                ['role' => 'member']
+                            );
+                            Auth::user()->boards()->attach(
+                                ['board_id' => $board->id],
+                                ['role' => 'member']
+                            );
+                            Auth::user()->cards()->attach(
+                                ['card_id' => $invitation->invitation_on_id],
+                                ['role' => 'member']
+                            );
+                        } else {
+                            Auth::user()->cards()->attach(
+                                ['card_id' => $invitation->invitation_on_id],
+                                ['role' => 'member']
+                            );
+                        }
+
                         break;
                 }
 
