@@ -23,11 +23,37 @@ class InvitationController extends Controller
 
     public function sendInvitation(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:App\Models\User,email',
-        ], [
-            'exists' => 'You can invite users who have accounts only'
-        ]);
+        switch ($request->invitation_on) {
+            case 'workspace':
+                $request->validate([
+                    'email' => 'required|email|exists:App\Models\User,email',
+                    'invitation_on_id' => 'required|exists:App\Models\Workspace,id'
+                ], [
+                    'email.exists' => 'You can invite users who have accounts only',
+                    'invitation_on_id.exists' => 'Enter a valid workspace id'
+                ]);
+                break;
+            case 'board':
+                $request->validate([
+                    'email' => 'required|email|exists:App\Models\User,email',
+                    'invitation_on_id' => 'required|exists:App\Models\Board,id'
+                ], [
+                    'email.exists' => 'You can invite users who have accounts only',
+                    'invitation_on_id.exists' => 'Enter a valid board id'
+
+                ]);
+                break;
+            case 'card':
+                $request->validate([
+                    'email' => 'required|email|exists:App\Models\User,email',
+                    'invitation_on_id' => 'required|exists:App\Models\Card,id'
+                ], [
+                    'email.exists' => 'You can invite users who have accounts only',
+                    'invitation_on_id.exists' => 'Enter a valid card id'
+                ]);
+                break;
+        }
+
 
         $query = Invitation::where('email', $request->email)
             ->where('invitation_on', $request->invitation_on)
