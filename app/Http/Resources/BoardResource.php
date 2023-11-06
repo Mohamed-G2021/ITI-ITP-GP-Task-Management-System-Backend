@@ -23,7 +23,7 @@ class BoardResource extends JsonResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "phases"=> $this->phases ? PhasesResource::collection($this->phases->sortBy('position')->values()):null,
-            "workspace_id" => $this->workspace? $this->workspace->d:null,
+            "workspace_id" => $this->workspace? $this->workspace->id:null,
         ];
     }
 }
