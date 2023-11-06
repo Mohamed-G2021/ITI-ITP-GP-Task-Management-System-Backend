@@ -20,7 +20,7 @@ class CommentResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user' => $this->user,
-            'card' => $this->card?$this->card:null,
+            'card_id' => $this->card?$this->card->id:null,
         ];
     }
 }

@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Attachment;
 use App\Models\Phase;
+use App\Models\Comment;
+use App\Models\Group;
 
 class Card extends Model
 {

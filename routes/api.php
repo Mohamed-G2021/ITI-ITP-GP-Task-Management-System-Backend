@@ -12,6 +12,7 @@ use App\Http\Controllers\api\CommentController;
 use App\Http\Controllers\api\GroupController;
 use App\Http\Controllers\api\PhaseController;
 use App\Http\Controllers\api\CardController;
+use App\Http\Controllers\api\InvitationController;
 use App\Http\Controllers\api\TaskController;
 use App\Http\Controllers\api\UserAttachmentController;
 use App\Http\Controllers\api\UserBoardController;
@@ -56,3 +57,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::delete('/auth/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
+
+Route::post('send-invitation', [InvitationController::class, 'sendInvitation']);
+Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvitation']);
+Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
