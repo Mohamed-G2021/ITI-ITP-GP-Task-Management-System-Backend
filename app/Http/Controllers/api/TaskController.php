@@ -34,7 +34,7 @@ class TaskController extends Controller
             "name" => "required",
             "is_done" => "required|boolean",
             "group_id" => "required|numeric",
-            "user_id" => "required|numeric"
+            "user_id" => "numeric"
         ]);
 
         if ($validator->fails()) {
