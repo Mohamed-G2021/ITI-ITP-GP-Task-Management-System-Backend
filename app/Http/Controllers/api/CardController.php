@@ -47,8 +47,8 @@ class CardController extends Controller
         $card = Card::create($request->all());
         $user = Auth::user();
         $user->cards()->attach($card->id);
-       
-        
+
+
         return (new CardResource($card))->response()->setStatusCode(201);
     }
 
@@ -78,10 +78,13 @@ class CardController extends Controller
 
         $card->update($request->all());
 
-        if($request->category_id){
+        if ($request->category_id) {
             $category = Category::find($request->category_id);
-            if($category) {$category->cards()->attach($card->id);}
-            else{ response('Not found', 404);}
+            if ($category) {
+                $category->cards()->attach($card->id);
+            } else {
+                response('Not found', 404);
+            }
         }
         return (new CardResource($card))->response()->setStatusCode(200);
     }

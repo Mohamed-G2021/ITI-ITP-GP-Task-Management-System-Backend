@@ -18,9 +18,7 @@ class GroupResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'tasks' => $this->tasks?TaskResource::collection($this->tasks->sortBy('created_at')->values()):null,
+            'items' => $this->tasks ? TaskResource::collection($this->tasks) : null,
             'card_id' => $this->card?$this->card->id:null
         ];
     }
