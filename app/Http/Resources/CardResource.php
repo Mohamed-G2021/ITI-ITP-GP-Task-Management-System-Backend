@@ -4,6 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\GroupResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\AttachmentResource;
 
 class CardResource extends JsonResource
 {
@@ -21,8 +25,11 @@ class CardResource extends JsonResource
             'due_date' => $this->due_date,
             'status_icon' => $this->status_icon,
             'position' => $this->position,
-            'phase' => $this->phase?$this->phase:null,
-            'groups' =>  $this->groups?$this->groups:null
+            'phase_id' => $this->phase?$this->phase->id:null,
+            'groups' =>  $this->groups? GroupResource::collection($this->groups->sortBy('created_at')->values()):null,
+            'categories' =>  $this->categories? CategoryResource::collection($this->categories->sortBy('created_at')->values()):null,
+            'comments' =>  $this->comments? CommentResource::collection($this->comments->sortByDesc('created_at')->values()):null,
+            'attachments' =>  $this->attachments? AttachmentResource::collection($this->attachments->sortBy('created_at')->values()):null,
         ];
     }
 }

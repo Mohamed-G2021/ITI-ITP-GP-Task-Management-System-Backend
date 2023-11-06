@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CardResource;
 
 class PhaseResource extends JsonResource
 {
@@ -20,8 +21,8 @@ class PhaseResource extends JsonResource
             'position' => $this->position,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'board' => $this->board ? new BoardResource($this->board) : null,
-            'cards' => $this->cards ? $this->cards->sortBy('position')->values() : null,
+            'board_id' => $this->board ? $this->board->id: null,
+            'cards' => $this->cards? CardResource::collection($this->cards->sortBy('position')->values()):null
         ];
     }
 }

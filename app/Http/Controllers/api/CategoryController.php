@@ -31,8 +31,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "card_id" => "required"
+            "color" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +60,7 @@ class CategoryController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "name" => "sometimes|required",
+            "color" => "sometimes|required",
         ]);
 
         if ($validator->fails()) {
@@ -70,7 +69,8 @@ class CategoryController extends Controller
 
 
         $category->update($request->all());
-
+        $card = Card::find($request->card_id);
+        if($card) $card->categories()->attach($category->id);
         return new CategoryResource($category);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CardResource;
 
 class CategoryResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
-            'card' => $this->cards?$this->cards:null,
+            'cards' => $this->cards? CardResource::collection($this->cards->sortBy('position')->values()):null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

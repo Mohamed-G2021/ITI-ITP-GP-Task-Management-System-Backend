@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\TaskResource;
 
 class GroupResource extends JsonResource
 {
@@ -19,8 +20,8 @@ class GroupResource extends JsonResource
             'name' => $this->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'tasks' => $this->tasks?$this->tasks:null,
-            'card' => $this->tasks,
+            'tasks' => $this->tasks?TaskResource::collection($this->tasks->sortBy('created_at')->values()):null,
+            'card_id' => $this->card?$this->card->id:null
         ];
     }
 }

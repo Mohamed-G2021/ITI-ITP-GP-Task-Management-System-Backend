@@ -72,21 +72,21 @@ class User extends Authenticatable
     ##many to many relations
     public function workspaces(): BelongsToMany
     {
-        return $this->belongsToMany(Workspace::class, 'user_workspace')->withTimestamps();;
+        return $this->belongsToMany(Workspace::class, 'user_workspace')->withTimestamps();
     }
 
     public function boards(): BelongsToMany
     {
-        return $this->belongsToMany(Board::class,  'user_board')->withTimestamps();;
+        return $this->belongsToMany(Board::class,  'user_board')->withTimestamps();
     }
 
     public function cards(): BelongsToMany
     {
-        return $this->belongsToMany(Card::class,  'user_card')->withTimestamps();;
+        return $this->belongsToMany(Card::class,  'user_card')->withTimestamps();
     }
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_member')->withTimestamps();;
+        return $this->belongsToMany(User::class, 'user_member')->withTimestamps();
     }
 }

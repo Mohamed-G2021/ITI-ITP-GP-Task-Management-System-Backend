@@ -20,8 +20,8 @@ class AttachmentResource extends JsonResource
             'name' => $this->name,
             'path' => $this->path,
             'size' => $this->size,
-            'user' => $this->user,
-            'card' => $this->card,
+            'user_id' => $this->user->id,
+            'card_id' => $this->card->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

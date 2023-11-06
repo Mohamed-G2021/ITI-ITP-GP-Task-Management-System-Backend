@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BoardResource;
 
 class WorkspaceResource extends JsonResource
 {
@@ -22,7 +23,7 @@ class WorkspaceResource extends JsonResource
             'background_image' => $this->background_image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'boards' => $this->boards,
+            'boards' => $this->boards?BoardResource::collection($this->boards->sortByDesc('updated_at')->values()):null
         ];
     }
 }
