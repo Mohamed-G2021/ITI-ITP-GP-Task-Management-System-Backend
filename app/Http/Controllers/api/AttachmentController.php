@@ -78,7 +78,7 @@ class AttachmentController extends Controller
         Storage::delete($attachment->path);
         $attachment->delete();
 
-        return response('Deleted', 200);
+        return response('Deleted', 204);
     }
 
     public function serveAttachment($id)
