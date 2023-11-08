@@ -54,7 +54,9 @@ class LoginController extends Controller
         );
 
         $token = $userCreated->createToken('Social login token')->plainTextToken;
-        return Redirect::to(url('http://localhost:61058/workspace'));
+        /* localStorage.setItem('token',$token); */
+        $url = "http://localhost:4200/sign-in?token=".$token;
+        return Redirect::to(url($url));
        /*  return response()->json($userCreated, 200, ['Access-token' => $token]); */
     }
 
