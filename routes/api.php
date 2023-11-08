@@ -65,5 +65,9 @@ Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvit
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
 
 
+Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
+
 Route::get('auth/login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
 Route::get('auth/login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
+
