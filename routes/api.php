@@ -61,3 +61,7 @@ Route::delete('/auth/logout', [AuthController::class, 'logout'])
 Route::post('send-invitation', [InvitationController::class, 'sendInvitation']);
 Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvitation']);
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
+
+
+Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
