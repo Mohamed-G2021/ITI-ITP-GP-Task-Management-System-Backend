@@ -59,7 +59,7 @@ class LoginController extends Controller
 
     protected function validateProvider($provider)
     {
-        if ($in_array($provider, ['github', 'google'])) {
+        if (in_array($provider, ['github', 'google'])) {
             return response()->json(['error' => 'Please login using GitHub or Google '], 422);
         }
     }

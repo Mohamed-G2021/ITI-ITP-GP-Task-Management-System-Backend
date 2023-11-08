@@ -65,5 +65,5 @@ Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvit
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
 
 
-Route::get('login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
-Route::get('login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
+Route::get('auth/login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
+Route::get('auth/login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
