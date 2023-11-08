@@ -7,6 +7,7 @@ use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -53,8 +54,8 @@ class LoginController extends Controller
         );
 
         $token = $userCreated->createToken('Social login token')->plainTextToken;
-
-        return response()->json($userCreated, 200, ['Access-token' => $token]);
+        return Redirect::to(url('http://localhost:61058/workspace'));
+       /*  return response()->json($userCreated, 200, ['Access-token' => $token]); */
     }
 
     protected function validateProvider($provider)
