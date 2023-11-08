@@ -43,7 +43,7 @@ class MyFatoorahController extends Controller
 
     private function establishConnection($uri, $method, $data = [])
     {
-        $request = new Request($method, env('myfatoorah_base_url') . $uri, $this->headers);
+        $request = new Request(env('myfatoorah_base_url') . $uri, $method, $this->headers);
 
         // if ($data) {
         //     return false;
