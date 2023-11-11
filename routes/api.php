@@ -21,7 +21,9 @@ use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
 use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
+
 use App\Http\Controllers\Auth\LoginController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -63,6 +65,15 @@ Route::delete('/auth/logout', [AuthController::class, 'logout'])
 Route::post('send-invitation', [InvitationController::class, 'sendInvitation']);
 Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvitation']);
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
+
+
+Route::post('pay', [MyFatoorahController::class, 'payOrder']);
+Route::get('payment/success', function () {
+    return 'payment succeeded';
+});
+Route::get('payment/error', function () {
+    return 'payment failed';
+});
 
 
 Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
