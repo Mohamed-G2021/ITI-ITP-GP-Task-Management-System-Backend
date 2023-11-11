@@ -112,19 +112,16 @@ class AuthController extends Controller
         }
 
         $resetPasswordToken = str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
-
-        if ($userPassRest = PasswordReset::where('email', $user->email)->first()) {
+        if (!$userPassRest = PasswordReset::where('email', $user->email)->first()) {
             PasswordReset::create([
                 'email' => $user->email,
                 'token' => $resetPasswordToken,
             ]);
         } else {
-            if (!is_null($userPassRest)) {
-                $userPassRest->update([
-                    'email' => $user->email,
-                    'token' => $resetPasswordToken,
-                ]);
-            }
+            $userPassRest->update([
+                'email' => $user->email,
+                'token' => $resetPasswordToken,
+            ]);
         }
 
 
@@ -138,7 +135,7 @@ class AuthController extends Controller
         $attributes = $request->validated();
         $user = User::where('email', $attributes['email'])->first();
 
-        if ($user) {
+        if (!$user) {
             return response()->json(
                 [
                     'message' =>  'No record found for this email address'
@@ -149,7 +146,7 @@ class AuthController extends Controller
 
         $resetRequest = PasswordReset::where('email', $user->email)->first();
 
-        if ($resetRequest || $resetRequest->token != $request->token) {
+        if (!$resetRequest || $resetRequest->token != $request->token) {
             return response()->json(
                 [
                     'message' =>
@@ -159,12 +156,9 @@ class AuthController extends Controller
             );
         }
 
-        $user->fill([
+        $user->update([
             'password' => Hash::make($attributes['password'])
         ]);
-        $user->save();
-
-        $user->token()->delete();
         $resetRequest->delete();
 
         $token = $user->createToken('Reset Password token')->plainTextToken;
