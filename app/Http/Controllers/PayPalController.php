@@ -33,7 +33,6 @@ class PayPalController extends Controller
                 ]
             ]
         ]);
-
         if (isset($response['id']) && $response['id'] != null) {
 
             foreach ($response['links'] as $links) {
@@ -59,7 +58,7 @@ class PayPalController extends Controller
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
 
-        if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+        if (isset($response['error']['name'])) {
             return redirect()
                 ->route('paypal')
                 ->with('success', 'Transaction complete.');
