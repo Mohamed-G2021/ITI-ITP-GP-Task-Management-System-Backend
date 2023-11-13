@@ -112,13 +112,15 @@ class AuthController extends Controller
         }
 
         $resetPasswordToken = str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
-        if (!$userPassRest = PasswordReset::where('email', $user->email)->first()) {
-            PasswordReset::create([
-                'email' => $user->email,
+
+        $userPassRest = PasswordReset::where('email', $user->email)->first();
+
+        if ($userPassRest) {
+            $userPassRest->update([
                 'token' => $resetPasswordToken,
             ]);
         } else {
-            $userPassRest->update([
+            PasswordReset::create([
                 'email' => $user->email,
                 'token' => $resetPasswordToken,
             ]);
@@ -146,31 +148,35 @@ class AuthController extends Controller
 
         $resetRequest = PasswordReset::where('email', $user->email)->first();
 
-        if (!$resetRequest || $resetRequest->token != $request->token) {
+        if (!$resetRequest) {
             return response()->json(
                 [
                     'message' =>
-                    'An error occurred, Please try again later'
+                    'Invalid Reset Request'
+                ],
+                404
+            );
+        } else if ($resetRequest->token != $request->token){
+            return response()->json(
+                [
+                    'message' =>
+                    'Invalid Token'
                 ],
                 404
             );
         }
 
-        $user->update([
+        $user->fill([
             'password' => Hash::make($attributes['password'])
         ]);
+        $user->save();
+
         $resetRequest->delete();
 
-        $token = $user->createToken('Reset Password token')->plainTextToken;
 
-        $loginResponse = [
-            'user' => $user,
-            'token' => $token,
-        ];
-
-        return response()->success(
-            $loginResponse,
-            'Password has been reset successfully',
+        return response()->json([
+            'message' => 'Password has been reset successfully',
+        ],
             201
         );
     }
