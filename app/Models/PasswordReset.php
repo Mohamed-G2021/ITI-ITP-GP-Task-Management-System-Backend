@@ -9,7 +9,7 @@ class PasswordReset extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['email', 'token'];
 
     const UPDATED_AT = null;
 }

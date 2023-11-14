@@ -55,9 +55,9 @@ class LoginController extends Controller
 
         $token = $userCreated->createToken('Social login token')->plainTextToken;
         /* localStorage.setItem('token',$token); */
-        $url = "http://localhost:4200/sign-in?token=".$token;
+        $url = "http://localhost:4200/sign-in?token=" . $token;
         return Redirect::to(url($url));
-       /*  return response()->json($userCreated, 200, ['Access-token' => $token]); */
+        /*  return response()->json($userCreated, 200, ['Access-token' => $token]); */
     }
 
     protected function validateProvider($provider)

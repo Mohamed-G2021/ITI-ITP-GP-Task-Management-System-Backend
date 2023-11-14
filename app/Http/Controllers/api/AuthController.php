@@ -113,18 +113,17 @@ class AuthController extends Controller
 
         $resetPasswordToken = str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
 
-        if ($userPassRest = PasswordReset::where('email', $user->email)->first()) {
+        $userPassRest = PasswordReset::where('email', $user->email)->first();
+
+        if ($userPassRest) {
+            $userPassRest->update([
+                'token' => $resetPasswordToken,
+            ]);
+        } else {
             PasswordReset::create([
                 'email' => $user->email,
                 'token' => $resetPasswordToken,
             ]);
-        } else {
-            if (!is_null($userPassRest)) {
-                $userPassRest->update([
-                    'email' => $user->email,
-                    'token' => $resetPasswordToken,
-                ]);
-            }
         }
 
 
@@ -138,7 +137,7 @@ class AuthController extends Controller
         $attributes = $request->validated();
         $user = User::where('email', $attributes['email'])->first();
 
-        if ($user) {
+        if (!$user) {
             return response()->json(
                 [
                     'message' =>  'No record found for this email address'
@@ -149,11 +148,19 @@ class AuthController extends Controller
 
         $resetRequest = PasswordReset::where('email', $user->email)->first();
 
-        if ($resetRequest || $resetRequest->token != $request->token) {
+        if (!$resetRequest) {
             return response()->json(
                 [
                     'message' =>
-                    'An error occurred, Please try again later'
+                    'Invalid Reset Request'
+                ],
+                404
+            );
+        } else if ($resetRequest->token != $request->token){
+            return response()->json(
+                [
+                    'message' =>
+                    'Invalid Token'
                 ],
                 404
             );
@@ -164,19 +171,12 @@ class AuthController extends Controller
         ]);
         $user->save();
 
-        $user->token()->delete();
         $resetRequest->delete();
 
-        $token = $user->createToken('Reset Password token')->plainTextToken;
 
-        $loginResponse = [
-            'user' => $user,
-            'token' => $token,
-        ];
-
-        return response()->success(
-            $loginResponse,
-            'Password has been reset successfully',
+        return response()->json([
+            'message' => 'Password has been reset successfully',
+        ],
             201
         );
     }

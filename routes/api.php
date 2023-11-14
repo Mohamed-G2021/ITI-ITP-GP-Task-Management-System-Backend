@@ -65,6 +65,20 @@ Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvit
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
 
 
+Route::post('pay', [MyFatoorahController::class, 'payOrder']);
+Route::get('payment/success', function () {
+    return 'payment succeeded';
+});
+Route::get('payment/error', function () {
+    return 'payment failed';
+});
+
+
+Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
+
+Route::get('auth/login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
+Route::get('auth/login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
 Route::get('paypal', [PayPalController::class, 'index'])->name('paypal');
 Route::get('paypal/payment', [PayPalController::class, 'payment'])->name('paypal.payment');
 Route::get('paypal/payment/success', [PayPalController::class, 'paymentSuccess'])->name('paypal.payment.success');
