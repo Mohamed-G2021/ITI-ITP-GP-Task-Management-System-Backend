@@ -20,7 +20,7 @@ class Card extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_card');
+        return $this->belongsToMany(User::class, 'user_card')->withPivot('role');
     }
 
     public function categories(): BelongsToMany

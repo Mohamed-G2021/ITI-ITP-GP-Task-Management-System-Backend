@@ -23,7 +23,8 @@ class WorkspaceResource extends JsonResource
             'background_image' => $this->background_image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'boards' => $this->boards?BoardResource::collection($this->boards->sortByDesc('updated_at')->values()):null
+            'boards' => $this->boards ? BoardResource::collection($this->boards->sortByDesc('updated_at')->values()) : null,
+            'user' => $this->users,
         ];
     }
 }

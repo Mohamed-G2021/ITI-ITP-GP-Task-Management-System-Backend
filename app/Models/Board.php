@@ -16,7 +16,7 @@ class Board extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_board');
+        return $this->belongsToMany(User::class, 'user_board')->withPivot('role');
     }
 
     public function phases()
