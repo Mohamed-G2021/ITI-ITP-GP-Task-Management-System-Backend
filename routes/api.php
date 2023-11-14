@@ -13,6 +13,7 @@ use App\Http\Controllers\api\GroupController;
 use App\Http\Controllers\api\PhaseController;
 use App\Http\Controllers\api\CardController;
 use App\Http\Controllers\api\InvitationController;
+use App\Http\Controllers\api\LoginController as ApiLoginController;
 use App\Http\Controllers\api\TaskController;
 use App\Http\Controllers\api\UserAttachmentController;
 use App\Http\Controllers\api\UserBoardController;
@@ -20,6 +21,9 @@ use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
 use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
+
+use App\Http\Controllers\Auth\LoginController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -63,5 +67,17 @@ Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvit
 Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
 
 
+Route::post('pay', [MyFatoorahController::class, 'payOrder']);
+Route::get('payment/success', function () {
+    return 'payment succeeded';
+});
+Route::get('payment/error', function () {
+    return 'payment failed';
+});
+
+
 Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
+
+Route::get('auth/login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
+Route::get('auth/login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
