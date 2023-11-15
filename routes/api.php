@@ -63,8 +63,8 @@ Route::delete('/auth/logout', [AuthController::class, 'logout'])
     ->middleware('auth:sanctum');
 
 Route::post('send-invitation', [InvitationController::class, 'sendInvitation']);
-Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvitation']);
-Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation']);
+Route::post('accept-invitation/{id}', [InvitationController::class, 'acceptInvitation'])->name('accept-invitation');
+Route::post('decline-invitation/{id}', [InvitationController::class, 'declineInvitation'])->name('decline-invitation');
 
 
 Route::post('pay', [MyFatoorahController::class, 'payOrder']);
