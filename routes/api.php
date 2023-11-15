@@ -15,12 +15,7 @@ use App\Http\Controllers\api\CardController;
 use App\Http\Controllers\api\InvitationController;
 use App\Http\Controllers\api\LoginController as ApiLoginController;
 use App\Http\Controllers\api\TaskController;
-use App\Http\Controllers\api\UserAttachmentController;
-use App\Http\Controllers\api\UserBoardController;
-use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserController;
-use App\Http\Controllers\api\UserMemberController;
-use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
 use App\Http\Controllers\api\PayPalController;
 use Illuminate\Support\Facades\Auth;
@@ -49,10 +44,6 @@ Route::apiResource('tasks', TaskController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('attachments', AttachmentController::class);
-Route::apiResource('user-workspaces', UserWorkspaceController::class);
-Route::apiResource('user-boards', UserBoardController::class);
-Route::apiResource('user-cards', UserCardController::class);
-Route::apiResource('user-members', UserMemberController::class);
 Route::apiResource('user', UserController::class);
 
 Route::get('/attachments/{id}/download', [AttachmentController::class, 'serveAttachment']);
@@ -74,7 +65,6 @@ Route::get('payment/success', function () {
 Route::get('payment/error', function () {
     return 'payment failed';
 });
-
 
 Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
