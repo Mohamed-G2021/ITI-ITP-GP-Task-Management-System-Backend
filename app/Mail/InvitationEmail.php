@@ -14,12 +14,14 @@ class InvitationEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $invitation;
+    public $link;
     /**
      * Create a new message instance.
      */
-    public function __construct($invitation)
+    public function __construct($invitation, $link)
     {
         $this->invitation = $invitation;
+        $this->link = $link;
     }
 
     /**

@@ -8,13 +8,11 @@
 <body>
         <p>Hello dear,</p>
 
-        <p>You have been invited to join TaskFlow. Please click the following link to accept the invitation:</p>
+        <h2>You have been invited to join TaskFlow.</h2>
 
-        <a href="{{route('accept-invitation', $invitation->id)}}">Accept Invitation</a>
+        <h3> Please click the following link to show the invitation:</h3>
 
-        <p>If you do not want to accept the invitation, you can decline it by clicking the following link:</p>
-
-        <a href="{{route('decline-invitation', $invitation->id)}}">Decline Invitation</a>
+        <a href='{{$link}}'>Show invitation</a>
 
         <p>Thank you!</p>
 </body>

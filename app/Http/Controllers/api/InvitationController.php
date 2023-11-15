@@ -75,7 +75,7 @@ class InvitationController extends Controller
             'invitation_on_id' => $request->invitation_on_id,
         ]);
 
-        Mail::to($invitation->email)->send(new InvitationEmail($invitation));
+        Mail::to($invitation->email)->send(new InvitationEmail($invitation, env('FRONTEND_DOMAIN') . '/invitation?id=' . $invitation->id));
 
         return response()->json([
             'message' => 'Invitation sent successfully',
