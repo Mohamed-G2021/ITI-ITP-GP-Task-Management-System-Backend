@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/auth/user', function (Request $request) {
     return Auth::guard('sanctum')->user();
 });
 
