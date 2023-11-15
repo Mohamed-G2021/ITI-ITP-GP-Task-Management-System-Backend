@@ -91,9 +91,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Card::class,  'user_card')->withTimestamps()->withPivot('role');
     }
-
-    public function members(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'user_member')->withTimestamps();
-    }
 }
