@@ -2,19 +2,17 @@
 <html>
 
 <head>
-        <title>Invitation to Join a Workspace</title>
+        <title>Invitation to Join TaskFlow</title>
 </head>
 
 <body>
-        <p>Hello,</p>
+        <p>Hello dear,</p>
 
-        <p>You have been invited to join a workspace. Please click the following link to accept the invitation:</p>
+        <h2>You have been invited to join TaskFlow.</h2>
 
-        <a href="http://www.localhost:4200/sign-in">Accept Invitation</a>
+        <h3> Please click the following link to show the invitation:</h3>
 
-        <p>If you do not want to accept the invitation, you can decline it by clicking the following link:</p>
-
-        <a href="http://www.localhost:4200/sign-up">Decline Invitation</a>
+        <a href='{{$link}}'>Show invitation</a>
 
         <p>Thank you!</p>
 </body>
