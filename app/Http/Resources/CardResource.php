@@ -25,10 +25,11 @@ class CardResource extends JsonResource
             'status_icon' => $this->status_icon,
             'position' => $this->position,
             'groups' =>  $this->groups ? GroupResource::collection($this->groups) : null,
-            'phase_id' => $this->phase?$this->phase->id:null,
-            'categories' =>  $this->categories? $this->categories->sortBy('created_at')->values():null,
-            'comments' =>  $this->comments? CommentResource::collection($this->comments->sortByDesc('created_at')->values()):null,
-            'attachments' =>  $this->attachments? AttachmentResource::collection($this->attachments->sortBy('created_at')->values()):null,
+            'phase_id' => $this->phase ? $this->phase->id : null,
+            'categories' =>  $this->categories ? $this->categories->sortBy('created_at')->values() : null,
+            'comments' =>  $this->comments ? CommentResource::collection($this->comments->sortByDesc('created_at')->values()) : null,
+            'attachments' =>  $this->attachments ? AttachmentResource::collection($this->attachments->sortBy('created_at')->values()) : null,
+            'members' =>  $this->users? $this->users->sortBy('created_at')->values():null,
         ];
     }
 }
