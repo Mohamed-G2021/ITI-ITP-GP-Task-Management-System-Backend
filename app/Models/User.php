@@ -16,7 +16,6 @@ use App\Models\Card;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -30,6 +29,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_picture',
+        'subscribed'
     ];
 
     /**
