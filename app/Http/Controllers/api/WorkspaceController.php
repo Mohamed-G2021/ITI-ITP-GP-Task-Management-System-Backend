@@ -6,7 +6,9 @@ use App\Models\Workspace;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WorkspaceResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class WorkspaceController extends Controller
@@ -39,10 +41,20 @@ class WorkspaceController extends Controller
             return response($validator->errors()->all(), 422);
         }
 
-        $workspace = Workspace::create($request->all());
+        $owns_workspaces = DB::table('user_workspace')
+            ->where('user_id', Auth::id())
+            ->count();
 
-        $user = Auth::user();
-        $user->workspaces()->attach($workspace->id);
+        $user = User::find(Auth::id());
+
+        if ($owns_workspaces >= 1 && $user->subscribed == 'no') {
+            return redirect(env('FRONTEND_DOMAIN') . '/pricing');
+        } else {
+            $workspace = Workspace::create($request->all());
+
+            $user = Auth::user();
+            $user->workspaces()->attach($workspace->id);
+        }
 
         return (new WorkspaceResource($workspace))->response()->setStatusCode(201);
     }
@@ -68,7 +80,6 @@ class WorkspaceController extends Controller
         if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
-
 
         $workspace->update($request->all());
 

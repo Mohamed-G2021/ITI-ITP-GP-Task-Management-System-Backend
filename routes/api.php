@@ -21,7 +21,7 @@ use App\Http\Controllers\api\UserCardController;
 use App\Http\Controllers\api\UserMemberController;
 use App\Http\Controllers\api\UserWorkspaceController;
 use App\Http\Controllers\api\WorkspaceController;
-use App\Http\Controllers\MyFatoorahController;
+use App\Http\Controllers\api\PayPalController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -79,6 +79,7 @@ Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('auth/login/{provider}', [ApiLoginController::class, 'redirectToProvider']);
 Route::get('auth/login/{provider}/callback', [ApiLoginController::class, 'handleProviderCallback']);
+
 Route::get('paypal', [PayPalController::class, 'index'])->name('paypal');
 Route::get('paypal/payment', [PayPalController::class, 'payment'])->name('paypal.payment');
 Route::get('paypal/payment/success', [PayPalController::class, 'paymentSuccess'])->name('paypal.payment.success');

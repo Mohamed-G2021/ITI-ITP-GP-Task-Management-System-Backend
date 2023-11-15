@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Redirect;
 
@@ -55,7 +54,7 @@ class LoginController extends Controller
 
         $token = $userCreated->createToken('Social login token')->plainTextToken;
         /* localStorage.setItem('token',$token); */
-        $url = "http://localhost:4200/sign-in?token=" . $token;
+        $url = env('FRONTEND_DOMAIN') . "/sign-in?token=" . $token;
         return Redirect::to(url($url));
         /*  return response()->json($userCreated, 200, ['Access-token' => $token]); */
     }

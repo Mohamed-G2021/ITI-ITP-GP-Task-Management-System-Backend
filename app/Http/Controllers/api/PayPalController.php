@@ -10,14 +10,10 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalController extends Controller
 {
-    function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
 
     public function index()
     {
-        return view('paypal');
+        return redirect(env('FRONTEND_DOMAIN') . '/paypal');
     }
 
     public function payment(Request $request)
@@ -49,13 +45,9 @@ class PayPalController extends Controller
                 }
             }
 
-            return redirect()
-                ->route('cancel.payment')
-                ->with('error', 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         } else {
-            return redirect()
-                ->route('create.payment')
-                ->with('error', $response['message'] ?? 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         }
     }
 
@@ -70,20 +62,14 @@ class PayPalController extends Controller
             $user =  User::find(Auth::id());
             $user->update(['subscribed' => 'yes']);
 
-            return redirect()
-                ->route('paypal')
-                ->with('success', 'Transaction complete.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-success');
         } else {
-            return redirect()
-                ->route('paypal')
-                ->with('error', $response['message'] ?? 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         }
     }
 
     public function paymentCancel()
     {
-        return redirect()
-            ->route('paypal')
-            ->with('error', $response['message'] ?? 'You have canceled the transaction.');
+        return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
     }
 }
