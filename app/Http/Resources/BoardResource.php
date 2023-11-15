@@ -5,8 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\PhaseResource;
-use App\Http\Resources\CategoryResource;
-
+ 
 class BoardResource extends JsonResource
 {
     /**
@@ -21,6 +20,7 @@ class BoardResource extends JsonResource
             "title" => $this->title,
             "description" => $this->description,
             "view" => $this->view,
+            "background_color" => $this->background_color,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "phases" => $this->phases ? PhaseResource::collection($this->phases->sortBy('position')->values()) : null,

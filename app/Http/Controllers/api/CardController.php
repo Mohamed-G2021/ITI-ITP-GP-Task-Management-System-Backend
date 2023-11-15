@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CardController extends Controller
@@ -44,10 +46,19 @@ class CardController extends Controller
             return response($validator->errors()->all(), 422);
         }
 
-        $card = Card::create($request->all());
-        $user = Auth::user();
-        $user->cards()->attach($card->id);
+        $owns_cards = DB::table('user_card')
+            ->where('user_id', Auth::id())
+            ->count();
+        $user = User::find(Auth::id());
 
+        if ($owns_cards >= 5 && $user->subscribed == 'no') {
+            return redirect(env('FRONTEND_DOMAIN') . '/pricing');
+        } else {
+            $card = Card::create($request->all());
+
+            $user = Auth::user();
+            $user->cards()->attach($card->id);
+        }
 
         return (new CardResource($card))->response()->setStatusCode(201);
     }

@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalController extends Controller
 {
+
     public function index()
     {
-        return view('paypal');
+        return redirect(env('FRONTEND_DOMAIN') . '/paypal');
     }
 
     public function payment(Request $request)
@@ -41,13 +45,9 @@ class PayPalController extends Controller
                 }
             }
 
-            return redirect()
-                ->route('cancel.payment')
-                ->with('error', 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         } else {
-            return redirect()
-                ->route('create.payment')
-                ->with('error', $response['message'] ?? 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         }
     }
 
@@ -59,20 +59,17 @@ class PayPalController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['error']['name'])) {
-            return redirect()
-                ->route('paypal')
-                ->with('success', 'Transaction complete.');
+            $user =  User::find(Auth::id());
+            $user->update(['subscribed' => 'yes']);
+
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-success');
         } else {
-            return redirect()
-                ->route('paypal')
-                ->with('error', $response['message'] ?? 'Something went wrong.');
+            return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
         }
     }
 
     public function paymentCancel()
     {
-        return redirect()
-            ->route('paypal')
-            ->with('error', $response['message'] ?? 'You have canceled the transaction.');
+        return redirect(env('FRONTEND_DOMAIN') . '/payment-failed');
     }
 }

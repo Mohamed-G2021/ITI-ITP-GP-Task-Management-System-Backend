@@ -12,7 +12,7 @@ use App\Models\Phase;
 class Board extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'view', 'workspace_id'];
+    protected $fillable = ['title', 'description', 'view', 'workspace_id', 'background_color'];
 
     public function users(): BelongsToMany
     {

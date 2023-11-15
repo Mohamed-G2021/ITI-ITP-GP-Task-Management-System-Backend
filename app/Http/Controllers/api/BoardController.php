@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use Illuminate\Http\Request;
 use App\Http\Resources\BoardResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {
@@ -39,10 +41,19 @@ class BoardController extends Controller
             return response($validator->errors()->all(), 422);
         }
 
-        $board = Board::create($request->all());
+        $owns_boards = DB::table('user_board')
+            ->where('user_id', Auth::id())
+            ->count();
+        $user = User::find(Auth::id());
 
-        $user = Auth::user();
-        $user->boards()->attach($board->id);
+        if ($owns_boards >= 1 && $user->subscribed == 'no') {
+            return redirect(env('FRONTEND_DOMAIN') . '/pricing');
+        } else {
+            $board = Board::create($request->all());
+
+            $user = Auth::user();
+            $user->boards()->attach($board->id);
+        }
 
         return (new BoardResource($board))->response()->setStatusCode(201);
     }
@@ -63,7 +74,7 @@ class BoardController extends Controller
         $validator = Validator::make($request->all(), [
             "title" => "required|min:3",
         ]);
-/*         $request->validate([
+        /*         $request->validate([
             "title" => "required|min:3",
             "workspace_id" => 'required'
         ]);
