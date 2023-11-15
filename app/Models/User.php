@@ -53,6 +53,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
+    public function providers()
+    {
+        return $this->hasMany(Provider::class, 'user_id', 'id');
+    }
+
     ## one to many relations
     public function tasks()
     {
