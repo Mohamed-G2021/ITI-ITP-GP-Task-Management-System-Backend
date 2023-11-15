@@ -29,7 +29,7 @@ class CardResource extends JsonResource
             'categories' =>  $this->categories ? $this->categories->sortBy('created_at')->values() : null,
             'comments' =>  $this->comments ? CommentResource::collection($this->comments->sortByDesc('created_at')->values()) : null,
             'attachments' =>  $this->attachments ? AttachmentResource::collection($this->attachments->sortBy('created_at')->values()) : null,
-            'user' => $this->users,
+            'members' =>  $this->users? $this->users->sortBy('created_at')->values():null,
         ];
     }
 }
